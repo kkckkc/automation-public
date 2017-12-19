@@ -5,11 +5,11 @@ from urllib.parse import quote
 from events.api import format_participant
 
 
-def meeting_note(event):
+def meeting_note(event, additional_tags):
     datestr = event.schedule[0].start.strftime("%Y-%m-%d %H:%M") + " - " + event.schedule[0].end.strftime("%H:%M")
     participants = "\t* " + "\n\t* ".join(map(format_participant, [event.owner] + event.required + event.optional))
 
-    return f"""#meeting
+    return f"""#meeting {" ".join(map(lambda t: "#" + t, additional_tags))}
 
 ## Info
 ID: {event.id}

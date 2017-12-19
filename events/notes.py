@@ -31,6 +31,14 @@ class NotesCalendarStore(XmlCalendarStore):
             self.notes_password
         ]
 
-        subprocess.run(command, shell=False, check=True,
-                       env={"PATH": notes_path, "DYLD_LIBRARY_PATH": notes_path, "NOTESBIN": notes_path})
+        res = subprocess.run(command, shell=False,
+                             env={"PATH": notes_path, "DYLD_LIBRARY_PATH": notes_path, "NOTESBIN": notes_path})
+        if res.returncode == 2:
+            raise SessionException()
+        elif res.returncode != 0:
+            raise Exception("Notes sync process execution error {}".format(res.returncode))
+
+
+class SessionException(Exception):
+    pass
 

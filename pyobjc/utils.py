@@ -1,5 +1,6 @@
 import Foundation
 from dateutil.parser import parse
+from Foundation import NSUserNotification, NSUserNotificationCenter
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S %z"
 
@@ -20,3 +21,10 @@ def safe_call(r):
     if not res:
         raise Exception("Failed {}".format(err.localizedDescription()))
     return res
+
+
+def notify(title, text):
+    notification = NSUserNotification.alloc().init()
+    notification.setTitle_(str(title))
+    notification.setInformativeText_(str(text))
+    NSUserNotificationCenter.defaultUserNotificationCenter().scheduleNotification_(notification)

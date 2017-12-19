@@ -41,7 +41,7 @@ target_events = target.events(target_cal)
 log("Getting Events from Target - {} events found".format(len(target_events)))
 
 # Delete all to get clean run
-if args.clean:
+if args.clean or len([e for e in target_events if "urn" not in e.props]) > 0:
     log("Cleaning Target - Cleaning all events in {} ({} events)".format(args.calendar, len(target_events)))
     with target.transaction():
         target.remove_events(target_events)
@@ -49,7 +49,7 @@ if args.clean:
     log("Cleaning Target - Cleaning events done")
 
 # Map all elements in target by urn
-target_events_by_urn = {e.props['urn']: e for e in target_events}
+target_events_by_urn = {e.props['urn']: e for e in target_events if "urn" in e.props}
 
 # Add missing events and update existing
 log("Adding Events to Target - start")

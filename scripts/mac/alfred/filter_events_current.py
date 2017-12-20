@@ -12,12 +12,12 @@ folder = parser.parse_args().folder
 target = XmlCalendarStore(folder)
 target_cal = next(c for c in target.all_calendars() if c.name == "main")
 
-start = datetime.now(tzlocal()) - timedelta(hours=2)
+start = datetime.now(tzlocal()) - timedelta(hours=4)
 end = datetime.now(tzlocal()) + timedelta(hours=2)
 target_events = target.events(target_cal, start, end)
 
 items = []
-for e in target_events:
+for e in sorted(target_events, key=lambda e: abs(datetime.now(tzlocal()) - e.schedule[0].start)):
     items.append({"uuid": e.id,
                   "title": e.subject,
                   "subtitle": "{} - {}, {}".format(
@@ -25,6 +25,7 @@ for e in target_events:
                   "arg": e.id,
                   "icon": {"type": "file", "path": "/Applications/Calendar.app/Contents/Resources/App.icns"}
                   })
+
 
 print(json.dumps({"items": items}))
 

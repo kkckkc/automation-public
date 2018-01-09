@@ -93,7 +93,10 @@ class PyObjcEvent(Event):
         if len(arr) == 1:
             return {}
         else:
-            return json.loads(arr[1])
+            try:
+                return json.loads(arr[1])
+            except json.decoder.JSONDecodeError:
+                return {}
 
     def __repr__(self):
         items = ("%s = %r" % (k, v) for k, v in self.__dict__.items())

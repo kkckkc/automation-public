@@ -79,6 +79,11 @@ class Event(object):
         self.props = props["props"] if "props" in props else (event.props or {})
         return self
 
+    def contains(self, word):
+        return (word in (self.location or "")) or (word in (self.owner or "")) or \
+                len([p for p in (self.required or []) if word in p]) > 0 or \
+                len([p for p in (self.optional or []) if word in p]) > 0
+
     def __repr__(self):
         items = ("%s = %r" % (k, v) for k, v in self.__dict__.items())
         return "<%s: {%s}>" % (self.__class__.__name__, ', '.join(items))

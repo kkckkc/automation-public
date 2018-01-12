@@ -28,7 +28,10 @@ event = next(e for e in target.events(target_cal, start, end) if e.id == id)
 
 if action == "new":
     additional_tags = []
-    if (event.location and ("IKEA" in event.location or "ikea" in event.location)) or (event.owner and ("ikea" in event.owner)):
+    if (event.location and ("IKEA" in event.location or "ikea" in event.location)) or \
+            (event.owner and ("ikea" in event.owner)) or \
+            (event.required and len([p for p in event.required if "ikea" in p]) > 0) or\
+            (event.optional and len([p for p in event.optional if "ikea" in p]) > 0):
         additional_tags.append("ikea")
     webbrowser.open(add_text(event.subject, meeting_note(event, additional_tags)))
 elif action == "open":

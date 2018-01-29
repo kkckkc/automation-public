@@ -13,7 +13,6 @@ from pyobjc.utils import notify
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S %z"
 
-
 try:
     # Request access to calendar
     store = CalCalendarStore.defaultCalendarStore()
@@ -30,13 +29,13 @@ try:
 
     args = parser.parse_args()
 
-
     if args.ping and not ping_ok(args.ping):
         notify("Sync disabled", "Network not reachable")
     else:
 
         # Setup source and targets
-        source = NotesCalendarStore(args.output, args.java, args.notes_extractor, args.notes_server, args.notes_password)
+        source = NotesCalendarStore(args.output, args.java, args.notes_extractor, args.notes_server,
+                                    args.notes_password)
         source_cal = next(c for c in source.all_calendars())
 
         target = PyObjcCalendarStore()
@@ -70,7 +69,8 @@ try:
                         ev = target_events_by_urn[urn].update(xe, {"schedule": [sch], "props": props})
                         updated += 1
                     else:
-                        ev = Event(xe.id, xe.subject, xe.body, xe.owner, xe.location, [sch], xe.required, xe.optional, props)
+                        ev = Event(xe.id, xe.subject, xe.body, xe.owner, xe.location, [sch], xe.required, xe.optional,
+                                   props)
                         added += 1
                     target.add_event(target_cal, ev)
                     source_events_by_urn[urn] = ev
@@ -82,7 +82,6 @@ try:
             number_of_deletes = target.remove_events(
                 [target_events_by_urn[urn] for urn in target_events_by_urn.keys() if urn not in source_events_by_urn])
             log("Deleting Events from Target - deleted {} events".format(number_of_deletes))
-
 
         notify("Sync complete", "Sync with Lotus Notes completed")
 

@@ -89,6 +89,8 @@ class PyObjcEvent(Event):
         self.required = self.props['_required'] if '_required' in self.props and self.required is None else self.required
 
     def _parse_properties(self, notes):
+        if notes is None:
+            return {}
         arr = notes.split(DELIMITER)
         if len(arr) == 1:
             return {}

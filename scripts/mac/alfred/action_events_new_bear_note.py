@@ -30,11 +30,11 @@ if action == "new":
     additional_tags = []
     if event.contains("ikea") or event.contains("IKEA"):
         additional_tags.append("ikea")
-    webbrowser.open(add_text(event.subject, meeting_note(event, additional_tags)))
+    webbrowser.open(add_text(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), meeting_note(event, additional_tags)))
 elif action == "open":
-    webbrowser.open(add_text(event.subject, ""))
+    webbrowser.open(add_text(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), ""))
 elif action == 'action':
-    webbrowser.open(add_text(event.subject, "- " + data.strip() + "\n"))
+    webbrowser.open(add_text(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), "- " + data.strip() + "\n"))
 elif action == 'file':
-    webbrowser.open(add_file(event.subject, data))
+    webbrowser.open(add_file(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), data))
 

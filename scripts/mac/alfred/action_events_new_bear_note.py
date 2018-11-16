@@ -1,6 +1,6 @@
 import webbrowser
 
-from apps.bear import add_text, add_file, meeting_note
+from apps.bear import add_text, add_file, meeting_note, create_note
 from datetime import datetime, timedelta
 from dateutil.tz import tzlocal
 from events.xml import XmlCalendarStore
@@ -30,7 +30,7 @@ if action == "new":
     additional_tags = []
     if event.contains("ikea") or event.contains("IKEA"):
         additional_tags.append("ikea")
-    webbrowser.open(add_text(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), meeting_note(event, additional_tags)))
+    webbrowser.open(create_note(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), meeting_note(event, additional_tags)))
 elif action == "open":
     webbrowser.open(add_text(event.subject + " " + event.schedule[0].start.strftime("%Y-%m-%d %H:%M"), ""))
 elif action == 'action':

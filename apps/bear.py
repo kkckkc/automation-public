@@ -12,17 +12,21 @@ def meeting_note(event, additional_tags):
     return f"""#meeting {" ".join(map(lambda t: "#" + t, additional_tags))}
 
 ## Info
-ID: {event.id}
-Date: {datestr}
-Participants:
+* *ID*: {event.id}
+* *Date*: {datestr}
+* *Participants*:
 {participants}
 
-## Notes
+## Notes and Actions
 """
 
 
 def add_text(title, text):
     return "bear://x-callback-url/add-text?exclude_trashed=yes&text={}&title={}&mode=append".format(quote(text), quote(title))
+
+
+def create_note(title, text):
+    return "bear://x-callback-url/create?text={}&title={}&mode=append".format(quote(text), quote(title))
 
 
 def add_file(title, file):
